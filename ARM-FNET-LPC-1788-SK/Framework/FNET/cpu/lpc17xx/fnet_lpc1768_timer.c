@@ -3,7 +3,7 @@
 #include "fnet.h"
 #include "fnet_timer_prv.h"
 #include "fnet_isr.h"
-
+#include "system_LPC177x_8x.h"
 #include "lpc_debug.h"
 
 #ifdef FNET_LPC

@@ -52,38 +52,38 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 SECONDARY_FLASH += \
-ARM-FNET-LPC-1788-SK.hex \
+ARM_FNET_LPC1788-SK.hex \
 
 SECONDARY_SIZE += \
-ARM-FNET-LPC-1788-SK.siz \
+ARM_FNET_LPC1788-SK.siz \
 
 
 # All Target
-all: ARM-FNET-LPC-1788-SK.elf secondary-outputs
+all: ARM_FNET_LPC1788-SK.elf secondary-outputs
 
 # Tool invocations
-ARM-FNET-LPC-1788-SK.elf: $(OBJS) $(USER_OBJS)
+ARM_FNET_LPC1788-SK.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall  -g3 -T "C:\Documents and Settings\peterj\My Documents\workspace\ARM\NXP-LPC\ARM-FNET-LPC-1788-SK\gcc_LPC1788.ld" -Xlinker --gc-sections -Wl,-Map,"ARM-FNET-LPC-1788-SK.map" -v -o "ARM-FNET-LPC-1788-SK.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall  -g3 -T "/home/janis/C:\Documents and Settings\peterj\My Documents\git/ARM-NXP-LPC/ARM-FNET-LPC-1788-SK/gcc_LPC1788.ld" -Xlinker --gc-sections -Wl,-Map,"ARM_FNET_LPC1788-SK.map" -v -o "ARM_FNET_LPC1788-SK.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-ARM-FNET-LPC-1788-SK.hex: ARM-FNET-LPC-1788-SK.elf
+ARM_FNET_LPC1788-SK.hex: ARM_FNET_LPC1788-SK.elf
 	@echo 'Invoking: Cross ARM GNU Create Flash Image'
-	arm-none-eabi-objcopy -O ihex "ARM-FNET-LPC-1788-SK.elf"  "ARM-FNET-LPC-1788-SK.hex"
+	arm-none-eabi-objcopy -O ihex "ARM_FNET_LPC1788-SK.elf"  "ARM_FNET_LPC1788-SK.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-ARM-FNET-LPC-1788-SK.siz: ARM-FNET-LPC-1788-SK.elf
+ARM_FNET_LPC1788-SK.siz: ARM_FNET_LPC1788-SK.elf
 	@echo 'Invoking: Cross ARM GNU Print Size'
-	arm-none-eabi-size --format=berkeley "ARM-FNET-LPC-1788-SK.elf"
+	arm-none-eabi-size --format=berkeley "ARM_FNET_LPC1788-SK.elf"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(SECONDARY_SIZE)$(OBJS)$(C_DEPS)$(ASM_DEPS)$(SECONDARY_FLASH)$(S_UPPER_DEPS) ARM-FNET-LPC-1788-SK.elf
+	-$(RM) $(SECONDARY_SIZE)$(OBJS)$(C_DEPS)$(ASM_DEPS)$(SECONDARY_FLASH)$(S_UPPER_DEPS) ARM_FNET_LPC1788-SK.elf
 	-@echo ' '
 
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_SIZE)
