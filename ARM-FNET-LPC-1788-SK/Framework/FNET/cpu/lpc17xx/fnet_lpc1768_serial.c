@@ -18,9 +18,9 @@
 /********************************************************************/
 void fnet_cpu_serial_putchar (long port_number, int character)
 {
-// TODO - povol a oprav send na UART.
-  //while((LPC_UART0->LSR & 0x40) != 0x40);
+  while((LPC_UART0->LSR & 0x40) != 0x40);
 	LPC_UART0->THR = character;
+	LPC_UART0->TER |= 0x80;			// povol vyslanie znaku.
  }
 /********************************************************************/
 int fnet_cpu_serial_getchar (long port_number)

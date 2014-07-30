@@ -1,4 +1,5 @@
 #include "fnet_config.h"
+#include "fnet_user_config.h"
 
 #include "fnet.h"
 #include "fnet_timer_prv.h"
@@ -8,7 +9,7 @@
 
 #ifdef FNET_LPC
 
-
+#include <stdio.h>
 
 #ifdef __USE_CMSIS
 #include "LPC177x_8x.h"
@@ -39,7 +40,7 @@ void fnet_cpu_timer_handler_bottom(void *cookie) {
 }
 
 void TIMER2_IRQHandler(void) {
-	//fnet_cpu_timer_handler_top();
+	fnet_cpu_timer_handler_top(0);
 	fnet_isr_handler(TIMER2_IRQn);
 
 }

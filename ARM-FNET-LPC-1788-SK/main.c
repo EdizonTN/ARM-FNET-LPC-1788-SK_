@@ -46,7 +46,7 @@ void cpu_serial_init(long port_number, unsigned long baud_rate)
 
   UART_ConfigStructInit(&UARTConfigStruct);
 
-  UARTConfigStruct.Baud_rate = 115200;
+  UARTConfigStruct.Baud_rate = baud_rate;
 
   // Initialize UART0 peripheral with given to corresponding parameter
   UART_Init(port_number, &UARTConfigStruct);
@@ -68,6 +68,12 @@ void Delay (unsigned long tick)
 	while ((SysTickCnt - systickcnt) < tick);
 }
 
+void HardFault_Handler(void)
+{
+	uint8_t value = 0;
+	value = 1;
+	value ++;
+}
 
 int main (void)
 {

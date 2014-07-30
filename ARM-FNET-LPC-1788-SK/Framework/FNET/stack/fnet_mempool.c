@@ -48,7 +48,7 @@
 
 #define FNET_MEMPOOL_MALLOC_BEST_CHOICE (1) /* Choose the best. */
 
-#define FNET_DEBUG_MEMPOOL_CHECK        (1)
+#define FNET_DEBUG_MEMPOOL_CHECK        (0)
 
 struct fnet_mempool
 {
