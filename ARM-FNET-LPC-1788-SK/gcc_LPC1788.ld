@@ -11,7 +11,8 @@ MEMORY
   RAM2(rwx) : ORIGIN = 0x20004000, LENGTH = 16k
 }
 
-__HEAP_SIZE = 
+
+
 
 /* Library configurations */
 GROUP(libgcc.a libc.a libm.a libnosys.a)
