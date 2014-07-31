@@ -13,6 +13,7 @@ OBJS :=
 C_DEPS := 
 ASM_DEPS := 
 SECONDARY_FLASH := 
+SECONDARY_LIST := 
 S_UPPER_DEPS := 
 
 # Every subdirectory with source files must be described here

@@ -54,6 +54,9 @@ endif
 SECONDARY_FLASH += \
 ARM_FNET_LPC1788-SK.hex \
 
+SECONDARY_LIST += \
+ARM_FNET_LPC1788-SK.lst \
+
 SECONDARY_SIZE += \
 ARM_FNET_LPC1788-SK.siz \
 
@@ -65,7 +68,7 @@ all: ARM_FNET_LPC1788-SK.elf secondary-outputs
 ARM_FNET_LPC1788-SK.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall  -g3 -gdwarf-4 -T "C:\Documents and Settings\peterj\My Documents\git\ARM-FNET-LPC-1788-SK\ARM-FNET-LPC-1788-SK\gcc_LPC1788.ld" -Xlinker --gc-sections -Wl,-Map,"ARM_FNET_LPC1788-SK.map" -v -o "ARM_FNET_LPC1788-SK.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall  -g3 -T "C:\Documents and Settings\peterj\My Documents\git\ARM-FNET-LPC-1788-SK\ARM-FNET-LPC-1788-SK\gcc_LPC1788.ld" -Xlinker --gc-sections -Wl,-Map,"ARM_FNET_LPC1788-SK.map" -v -o "ARM_FNET_LPC1788-SK.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -75,18 +78,24 @@ ARM_FNET_LPC1788-SK.hex: ARM_FNET_LPC1788-SK.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
+ARM_FNET_LPC1788-SK.lst: ARM_FNET_LPC1788-SK.elf
+	@echo 'Invoking: Cross ARM GNU Create Listing'
+	arm-none-eabi-objdump --source --all-headers --demangle --line-numbers --wide "ARM_FNET_LPC1788-SK.elf" > "ARM_FNET_LPC1788-SK.lst"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 ARM_FNET_LPC1788-SK.siz: ARM_FNET_LPC1788-SK.elf
 	@echo 'Invoking: Cross ARM GNU Print Size'
-	arm-none-eabi-size --format=berkeley "ARM_FNET_LPC1788-SK.elf"
+	arm-none-eabi-size --format=berkeley -x --totals "ARM_FNET_LPC1788-SK.elf"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(SECONDARY_SIZE)$(OBJS)$(C_DEPS)$(ASM_DEPS)$(SECONDARY_FLASH)$(S_UPPER_DEPS) ARM_FNET_LPC1788-SK.elf
+	-$(RM) $(SECONDARY_SIZE)$(OBJS)$(C_DEPS)$(ASM_DEPS)$(SECONDARY_FLASH)$(SECONDARY_LIST)$(S_UPPER_DEPS) ARM_FNET_LPC1788-SK.elf
 	-@echo ' '
 
-secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_SIZE)
+secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_LIST) $(SECONDARY_SIZE)
 
 .PHONY: all clean dependents
 .SECONDARY:
