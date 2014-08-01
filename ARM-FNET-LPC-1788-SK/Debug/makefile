@@ -68,9 +68,10 @@ all: ARM_FNET_LPC1788-SK.elf secondary-outputs
 ARM_FNET_LPC1788-SK.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall  -g3 -T "C:\Documents and Settings\peterj\My Documents\git\ARM-FNET-LPC-1788-SK\ARM-FNET-LPC-1788-SK\gcc_LPC1788.ld" -Xlinker --gc-sections -Wl,-Map,"ARM_FNET_LPC1788-SK.map" -v -o "ARM_FNET_LPC1788-SK.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall  -g3 -T "C:\Documents and Settings\peterj\My Documents\git\ARM-FNET-LPC-1788-SK\ARM-FNET-LPC-1788-SK\gcc_LPC1788.ld" -Wl,-Map,"ARM_FNET_LPC1788-SK.map" -o "ARM_FNET_LPC1788-SK.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
+	$(MAKE) --no-print-directory post-build
 
 ARM_FNET_LPC1788-SK.hex: ARM_FNET_LPC1788-SK.elf
 	@echo 'Invoking: Cross ARM GNU Create Flash Image'
@@ -95,9 +96,13 @@ clean:
 	-$(RM) $(SECONDARY_SIZE)$(OBJS)$(C_DEPS)$(ASM_DEPS)$(SECONDARY_FLASH)$(SECONDARY_LIST)$(S_UPPER_DEPS) ARM_FNET_LPC1788-SK.elf
 	-@echo ' '
 
+post-build:
+	-checksum.cmd "C:/Documents and Settings/peterj/My Documents/git/ARM-FNET-LPC-1788-SK/ARM-FNET-LPC-1788-SK" "Debug"  "ARM_FNET_LPC1788-SK" "LPC1788"
+	-@echo ' '
+
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_LIST) $(SECONDARY_SIZE)
 
 .PHONY: all clean dependents
-.SECONDARY:
+.SECONDARY: post-build
 
 -include ../makefile.targets
