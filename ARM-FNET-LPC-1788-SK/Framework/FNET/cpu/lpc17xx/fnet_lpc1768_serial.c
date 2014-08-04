@@ -38,21 +38,21 @@ void fnet_cpu_serial_init(long port_number, unsigned long baud_rate)
 
   // located at main.c
   cpu_serial_init(port_number, baud_rate);
-  /*
+
 		// Set the pinsel on txd0,rxd0
-		LPC_IOCON ->PINSEL0 &= ~((0x3 << 4) | (0x3 << 6));
-		LPC_IOCON ->PINSEL0 |= (1 << 4) | (1 << 6);
+		LPC_IOCON ->P0_2 = 1 | (2 << 3) | (1 << 9);	//RxD0 - P0.3, UART fn, pull up, fast mode
+		LPC_IOCON ->P0_3 = 1 | (1 << 9);		//TxD0 - P0.2, UART fn, fast mode
 
 		// Set RXD0 to input
 
 		// Enable UART0
 		LPC_SC ->PCONP |= (1 << 3);
-		LPC_GPIO0->FIODIR0 |= 0x4;
+		LPC_GPIO0->DIR |= 0x4;
 		// Set clock to PCLK/4
 		//LPC_SC->PCLKSEL0 &= ~(0x3 << 6);
 
 		// Set clock to PCLK/8
-		LPC_SC->PCLKSEL0 |= (0x3 << 6);
+		LPC_SC->PCLKSEL |= (0x3 << 6);
 		// 8-N-1 configuration
 		LPC_UART0 ->LCR = (0x3);
 		// Enable access to divisor latch access bits
@@ -74,7 +74,6 @@ void fnet_cpu_serial_init(long port_number, unsigned long baud_rate)
 		// Enable receive interrupt
 		//LPC_UART0->IER = 1;
 		//NVIC_EnableIRQ(UART0_IRQn);
-*/
 }
 
 #endif
