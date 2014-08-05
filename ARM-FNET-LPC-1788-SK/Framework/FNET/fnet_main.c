@@ -80,7 +80,7 @@ void FNET_START(void) {
 	
 
 	    /* Init UART */
-		fnet_cpu_serial_init(FNET_CFG_CPU_SERIAL_PORT_DEFAULT, 9600);
+		//fnet_cpu_serial_init(FNET_CFG_CPU_SERIAL_PORT_DEFAULT, 9600);
 		fnet_printf("123456789\n");
 
 #if LPC_DEBUG_LEDS

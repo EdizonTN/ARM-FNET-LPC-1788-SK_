@@ -5,7 +5,7 @@
 <listEntry value="org.eclipse.ui.externaltools.launchGroup"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="C:\Documents and Settings\peterj\My Documents\openocd-0.5.0\bin\openocd-0.5.0.exe"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-f &quot;board/iar_lpc1788.cfg&quot;"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="C:\Documents and Settings\peterj\My Documents\openocd-0.5.0\bin"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="C:\Documents and Settings\peterj\My Documents\openocd-0.9.0-dev-swd-140623233947\bin\openocd-0.9.0-dev-swd-140623233947.exe"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-f &quot;board/iar_lpc1788.cfg&quot;&#13;&#10;-d3"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="C:\Documents and Settings\peterj\My Documents\openocd-0.9.0-dev-swd-140623233947\bin"/>
 </launchConfiguration>
