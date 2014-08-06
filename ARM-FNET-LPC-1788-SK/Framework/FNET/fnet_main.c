@@ -29,6 +29,7 @@ __CRP const unsigned int CRP_WORD = CRP_NO_CRP ;
 // TODO: insert other definitions and declarations here
 
 #include "fnet.h"
+#include "fnet_arp.h"
 #include "fnet_cpu.h"
 
 #include "fnet_dhcp.h"
@@ -81,7 +82,7 @@ void FNET_START(void) {
 
 	    /* Init UART */
 		//fnet_cpu_serial_init(FNET_CFG_CPU_SERIAL_PORT_DEFAULT, 9600);
-		fnet_printf("123456789\n");
+		fnet_printf("UART %i init @%u\n", FNET_CFG_CPU_SERIAL_PORT_DEFAULT, FNET_CFG_CPU_SERIAL_BAUD_DEFAULT);
 
 #if LPC_DEBUG_LEDS
 		led_init();

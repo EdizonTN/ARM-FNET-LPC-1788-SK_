@@ -1109,8 +1109,8 @@ static void fnet_dhcp_state_machine( void *fnet_dhcp_if_p )
           if(fnet_netif_get_ip4_addr_automatic(dhcp->netif) == 0) /* If user changed parameters manually. */
           {
               fnet_dhcp_release();                           /* Disable DHCP if user has changed ip parameters. */
-              break;
           }
+          break;
         /*---- REBOOTING ------------------------------------------------*/
         case FNET_DHCP_STATE_REBOOTING:
         /*---- REQUESTING -----------------------------------------------*/

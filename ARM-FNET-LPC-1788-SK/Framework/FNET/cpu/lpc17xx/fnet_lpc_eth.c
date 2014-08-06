@@ -37,6 +37,7 @@
  *  Created on: Dec 8, 2012
  *      Author: matt
  */
+#include "global.h"
 
 #include "fnet.h"
 #include "lpc_debug.h"
@@ -165,6 +166,7 @@ void fnet_eth_io_init()
         // TODO: oprav pinout !!!!!!!!!!1
         // set_pinsel2_ethernet_funcs();
 	// set_pinsel3_ethernet_funcs();
+        HW_initialize_ETH();
 
 	reset_mac1_internal_modules();
 

@@ -31,6 +31,7 @@
 
 #include "fnet.h"
 #include "fnet_stdlib.h"
+#include "string.h"
 
 static char fnet_tolower( const char to_lower );
 

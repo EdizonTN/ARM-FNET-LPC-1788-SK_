@@ -18,8 +18,8 @@
 #define ARM_MATH_CM3
 
 
-#define UART_PORT       (UART_TypeDef *)UART1   // Select UART1
-
+//#define DEBUG_UART_PORT       (UART_TypeDef *)UART1   // Select UART1
+#define FNET_CFG_CPU_SERIAL_BAUD_DEFAULT	115200
 
 //LED indicators preset
 #define BRD_LED_1_CONNECTED_PORT		(1)
@@ -30,6 +30,7 @@
 
 /*********************************************************************************/
 /******************* FNET Configuration -> override default one ******************/
+#define FNET_CFG_CPU_LPC_ETH_ADVANCED_DEBUG	1
 #define _FAPP_USER_CONFIG_H_
 #define FAPP_CFG_NAME                   "VRM FNET Shell Application"
 #define FAPP_CFG_SHELL_PROMPT           "SHELL> "

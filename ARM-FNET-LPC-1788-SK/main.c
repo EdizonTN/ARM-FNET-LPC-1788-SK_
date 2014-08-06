@@ -12,7 +12,7 @@
 
 #include "global.h"
 void cpu_serial_init(long port_number, unsigned long baud_rate);
-
+void HW_initialize_ETH(void);
 
 /************************** PRIVATE DEFINITIONS *************************/
 
@@ -75,7 +75,20 @@ void HardFault_Handler(void)
 	value ++;
 }
 
+// MII ethernet interface
+void HW_initialize_ETH(void)
+{
+  PINSEL_ConfigPin(1,0,1);		// P1.0 - alternate function no.1, FUNC_ENET_TXD0
+  PINSEL_ConfigPin(1,1,1);		// P1.1 - alternate function no.1, FUNC_ENET_TXD1
+  PINSEL_ConfigPin(1,4,1);		// P1.4 - alternate function no.1, FUNC_ENET_TX_EN
+  PINSEL_ConfigPin(1,8,1);		// P1.8 - alternate function no.1, FUNC_ENET_CRS
+  PINSEL_ConfigPin(1,9,1);		// P1.9 - alternate function no.1, FUNC_ENET_RXD0
+  PINSEL_ConfigPin(1,14,1);		// P1.14 - alternate function no.1, FUNC_ENET_RX_ER
+  PINSEL_ConfigPin(1,15,1);		// P1.15 - alternate function no.1, ENET_RX_CLK
+  PINSEL_ConfigPin(1,16,1);		// P1.16 - alternate function no.1, FUNC_ENET_MDC
+  PINSEL_ConfigPin(1,17,1);		// P1.16 - alternate function no.1, FUNC_ENET_MDIO
 
+}
 
 void Initialize_UART(long port_number, unsigned long baud_rate)
 {
@@ -86,9 +99,9 @@ void Initialize_UART(long port_number, unsigned long baud_rate)
   // UART FIFO configuration Struct variable
   UART_FIFO_CFG_Type UARTFIFOConfigStruct;
 
-  uint32_t idx, len;
-  FlagStatus exitflag;
-  uint8_t buffer[10];
+  // uint32_t idx, len;
+  // FlagStatus exitflag;
+  // uint8_t buffer[10];
 
   switch (port_number)
   {
@@ -104,13 +117,13 @@ void Initialize_UART(long port_number, unsigned long baud_rate)
 	PINSEL_ConfigPin(0,11,1);
 	break;
       }
-    case 3:	// Initialize UART2 pin connect: P0.2: U3_TXD, P0.3: U3_RXD
+    case 3:	// Initialize UART3 pin connect: P0.2: U3_TXD, P0.3: U3_RXD
       {
 	PINSEL_ConfigPin(0,2,2);
 	PINSEL_ConfigPin(0,3,2);
 	break;
       }
-    case 4:	// Initialize UART2 pin connect: P0.22: U4_TXD, P2.9: U4_RXD
+    case 4:	// Initialize UART4 pin connect: P0.22: U4_TXD, P2.9: U4_RXD
       {
 	PINSEL_ConfigPin(0,22,3);
 	PINSEL_ConfigPin(2,9,3);
@@ -157,7 +170,7 @@ int main (void)
 	GPIO_SetDir(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, GPIO_DIRECTION_OUTPUT);
 	GPIO_OutputValue(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, 1);
 
-	Initialize_UART(FNET_CFG_CPU_SERIAL_PORT_DEFAULT, 115200);
+	Initialize_UART(FNET_CFG_CPU_SERIAL_PORT_DEFAULT, FNET_CFG_CPU_SERIAL_BAUD_DEFAULT);
 
 	FNET_START();
 	GPIO_OutputValue(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, 0);

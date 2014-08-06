@@ -48,8 +48,9 @@
 #include "fnet_config.h"
 
 
-// export from various modules
+// export from main.c module
 extern void cpu_serial_init(long port_number, unsigned long baud_rate);
 extern void FNET_START(void);
+extern void HW_initialize_ETH(void);
 
 #endif /* GLOBAL_H_ */

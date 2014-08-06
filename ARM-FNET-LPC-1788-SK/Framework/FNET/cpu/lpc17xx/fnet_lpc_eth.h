@@ -95,7 +95,7 @@ enum {
 
 #define set_enable_rxtx_functions(functions) LPC_EMAC->Command &= ~(COMMAND_ENABLE_RECEIVE | COMMAND_ENABLE_TRANSMIT | COMMAND_TX_RESET | COMMAND_RX_RESET); LPC_EMAC->Command |= functions
 
-//todo : Prepoj MCU s ETH !!!!
+//Prepojene v main.c -> void HW_initialize_ETH(void)
 //#define set_pinsel2_ethernet_funcs() LPC_PINCON->PINSEL2 |= P10_FUNC_ENET_TXD0 | P11_FUNC_ENET_TXD1 | P14_FUNC_ENET_TX_EN | P18_FUNC_ENET_CRS | P19_FUNC_ENET_RXD0 | P110_FUNC_ENET_RXD1 | P114_FUNC_ENET_RX_ER | P130_FUNC_ENET_REF_CLK
 //#define set_pinsel3_ethernet_funcs() LPC_PINCON->PINSEL3 |= P116_FUNC_ENET_MPC | P117_FUNC_ENET_MDIO
 
