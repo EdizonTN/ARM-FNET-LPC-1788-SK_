@@ -50,12 +50,12 @@ extern "C"
 #define EMAC_PHY_DEFAULT_ADDR       KS8721B_MII_ADDR
 
 
-/* LAN8720 PHY Basic Registers */
+/* KS8721B PHY Basic Registers */
 #define KS8721B_PHY_REG_BMCR        0x00        // Basic Mode Control Register
 #define KS8721B_PHY_REG_BMSR        0x01        // Basic Mode Status Register
 
 
-/* LAN8720 PHY Extended Registers */
+/* KS8721B PHY Extended Registers */
 #define KS8721B_PHY_REG_IDR1        0x02        // PHY Identifier 1
 #define KS8721B_PHY_REG_IDR2        0x03        // PHY Identifier 2
 #define KS8721B_PHY_REG_ANAR        0x04        // Auto-Negotiation Advertisement
@@ -63,7 +63,7 @@ extern "C"
 #define KS8721B_PHY_REG_ANER        0x06        // Auto-Neg. Expansion Register
 
 
-/* LAN8720 PHY Vendor-specific Registers */
+/* KS8721B PHY Vendor-specific Registers */
 #define KS8721B_PHY_REG_SRR         0x10        // Silicon Revision Register
 #define KS8721B_PHY_REG_MCSR        0x11        // Mode Control/Status Register
 #define KS8721B_PHY_REG_SR          0x12        // Special Register
@@ -100,11 +100,10 @@ extern "C"
 #define KS8721B_PHY_BMSR_EXTCAPBILITY_POS       (0)     //Extended Capabilities
 
 //The Common Registers that are using in all PHY IC with EMAC component of LPC1788
-#define EMAC_PHY_REG_BMCR                   KS8721B_PHY_REG_BMCR
-#define EMAC_PHY_REG_BMSR                   KS8721B_PHY_REG_BMSR
-#define EMAC_PHY_REG_IDR1                   KS8721B_PHY_REG_IDR1
-#define EMAC_PHY_REG_IDR2                   KS8721B_PHY_REG_IDR2
-
+#define EMAC_PHY_REG_BMCR                   	KS8721B_PHY_REG_BMCR
+#define EMAC_PHY_REG_BMSR                   	KS8721B_PHY_REG_BMSR
+#define EMAC_PHY_REG_IDR1                   	KS8721B_PHY_REG_IDR1
+#define EMAC_PHY_REG_IDR2                   	KS8721B_PHY_REG_IDR2
 
 #define EMAC_PHY_BMCR_RESET                 (1 << KS8721B_PHY_BMCR_RESET_POS)
 #define EMAC_PHY_BMCR_POWERDOWN             (1 << KS8721B_PHY_BMCR_PWRDWN_POS)
@@ -122,14 +121,14 @@ extern "C"
 #define EMAC_PHY_BMSR_LINK_ESTABLISHED      (1 << KS8721B_PHY_BMSR_LINK_ESTABLISHED_POS)
 
 
-#define KS8721B_PHY_ID1             (0x0022)
+#define KS8721B_PHY_ID1             		(0x0022)
 
-#define KS8721B_PHY_ID2_OUI         (0x0005) //Organizationally Unique Identifer Number
-#define KS8721B_PHY_ID2_MANF_MODEL  (0x0021) //Manufacturer Model Number
-#define KS8721B_PHY_ID2_CRIT        (((KS8721B_PHY_ID2_OUI & 0x3F) << 6) | (KS8721B_PHY_ID2_MANF_MODEL & 0x3F))
+#define KS8721B_PHY_ID2_OUI         		(0x0005) //Organizationally Unique Identifer Number
+#define KS8721B_PHY_ID2_MANF_MODEL  		(0x0021) //Manufacturer Model Number
+#define KS8721B_PHY_ID2_CRIT        		(((KS8721B_PHY_ID2_OUI & 0x3F) << 6) | (KS8721B_PHY_ID2_MANF_MODEL & 0x3F))
 
-#define EMAC_PHY_ID1_CRIT           (KS8721B_PHY_ID1)
-#define EMAC_PHY_ID2_CRIT           (KS8721B_PHY_ID2_CRIT)
+#define EMAC_PHY_ID1_CRIT           		(KS8721B_PHY_ID1)
+#define EMAC_PHY_ID2_CRIT           		(KS8721B_PHY_ID2_CRIT)
 
 
 #ifdef __cplusplus

@@ -1,0 +1,18 @@
+//#include "LPC177x_8x.h"
+
+#ifndef FNET_CFG_CPU_CLOCK_HZ
+#define FNET_CFG_CPU_CLOCK_HZ           (100000000)
+#endif
+
+#ifndef FNET_CFG_CPU_TIMER_VECTOR_NUMBER
+#define FNET_CFG_CPU_TIMER_VECTOR_NUMBER 	3
+#endif
+
+#ifndef FNET_CFG_CPU_ETH_VECTOR_NUMBER
+#define FNET_CFG_CPU_ETH0_VECTOR_NUMBER		28
+#endif
+
+#ifndef FNET_CFG_CPU_LITTLE_ENDIAN
+	#define FNET_CFG_CPU_LITTLE_ENDIAN 1
+#endif
+

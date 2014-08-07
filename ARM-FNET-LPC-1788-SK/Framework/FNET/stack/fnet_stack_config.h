@@ -218,7 +218,7 @@
  * @showinitializer
  ******************************************************************************/
 #ifndef FNET_CFG_ETH0_IP4_MASK
-    #define FNET_CFG_ETH0_IP4_MASK        (FNET_IP4_ADDR_INIT(255, 255, 255, 0))
+    #define FNET_CFG_ETH0_IP4_MASK        (FNET_IP4_ADDR_INIT(255, 255, 0, 0))
 #endif
     
 /**************************************************************************/ /*!
@@ -795,7 +795,7 @@
 
  
 
-#if !FNET_CFG_DEBUG /* Clear all debuging flags. */
+#ifndef FNET_CFG_DEBUG /* Clear all debuging flags. */
     #undef  FNET_CFG_DEBUG_TIMER
     #define FNET_CFG_DEBUG_TIMER        (0)
     #undef  FNET_CFG_DEBUG_HTTP
@@ -829,7 +829,7 @@
     
 #endif
 
-#if !FNET_CFG_DEBUG_TRACE /* Clear all trace flags. */
+#ifndef FNET_CFG_DEBUG_TRACE /* Clear all trace flags. */
     #undef  FNET_CFG_DEBUG_TRACE_IP
     #define FNET_CFG_DEBUG_TRACE_IP     (0)
     #undef  FNET_CFG_DEBUG_TRACE_ICMP

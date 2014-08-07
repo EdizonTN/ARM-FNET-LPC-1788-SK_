@@ -373,6 +373,8 @@ void fnet_eth_drain(fnet_netif_t *netif)
 void fnet_eth_change_addr_notify(fnet_netif_t *netif)
 {
 #if FNET_CFG_IP4
+fnet_printf("ETH - Change IP4 to: %x\n", netif->ip4_addr.address);
+
     if(netif->ip4_addr.address)
     	fnet_arp_request(netif, netif->ip4_addr.address); /* Gratuitous ARP request.*/
 #else

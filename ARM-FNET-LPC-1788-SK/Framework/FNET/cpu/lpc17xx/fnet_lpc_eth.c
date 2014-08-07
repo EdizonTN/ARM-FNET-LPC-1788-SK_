@@ -58,7 +58,7 @@
 #else
 #define lpceth_debug_printf(x...) 
 #endif
-char loop;
+
 
 uint8_t *rxFragmentPtr;
 uint8_t *txFragmentPtr;
@@ -158,55 +158,62 @@ uint16_t fnet_lpceth_read_from_phy(uint8_t reg) {
 	return -1;
 }
 
+// Hardwerove poripopjenie ethernet phy k LPC
 void fnet_eth_io_init()
 {
-	LPC_SC->PCONP |= LPC_PCON_ENABLE_ETH_POWER;
+	unsigned int loop;
 
-        lpceth_debug_printf("Ethernet power on\n");
-        // TODO: oprav pinout !!!!!!!!!!1
-        // set_pinsel2_ethernet_funcs();
-	// set_pinsel3_ethernet_funcs();
-        HW_initialize_ETH();
+	lpceth_debug_printf("...Internal ETH MAC: Power ON - ");
+	LPC_SC->PCONP |= LPC_PCON_ENABLE_ETH_POWER;
+    lpceth_debug_printf("OK\n");
+
+    lpceth_debug_printf("...MII Interface: HW Config - ");
+
+    HW_initialize_ETH();
+    lpceth_debug_printf("OK\n");
 
 	reset_mac1_internal_modules();
-
 	reset_mac_datapaths();
 	// Short delay
 	for (loop = 100; loop; loop--);
 
-        lpceth_debug_printf("Done reset mac datapaths\n");
+    lpceth_debug_printf("...Internal ETH MAC: Reset MAC Datapaths - ");
 	mac_pass_all_receive_frames();
-
 	mac_enable_crc_short_frames();
-
 	set_mac_max_frame_size(LPC_ETH_MAX_FRAME_SIZE);
 	mac_disable_huge_frames();
-
 	set_retransmission_max_collision_window(LPC_ETH_DEFAULT_RETRANSMISSION_MAX,LPC_ETH_DEFAULT_COLLISION_WIN);
-
 	set_non_b2b_pkt_gap(LPC_ETH_DEFAULT_NON_B2B_PKT_GAP);
+	lpceth_debug_printf("OK\n");
 
+	// todo skuntroluj casovanie, ci nema ist nahodou zvonku....
 	set_mII_clk_div(MII_CLK_DIV_64);
-        lpceth_debug_printf("About to reset MII interface\n");
+        lpceth_debug_printf("...MII Interface: Reset - ");
 	reset_mII_interface();
-
+	lpceth_debug_printf("OK\n");
 }
+
+
 
 int fnet_lpceth_init(fnet_netif_t *netif)
 {
-    lpceth_debug_printf("About to init Ethernet I/O\n");
+	unsigned long loop;
+	lpceth_debug_printf("Ethernet configuration\n");
 	fnet_eth_io_init();
 	uint32_t phyId = 0,temp=0;
 
 	// Wait a bit
 	for (loop = 100; loop; loop--);
 	// Bring the MII out of reset
+    lpceth_debug_printf("...MII Interface: Enable - ");
 	enable_mII_interface();
-
 	// Enable the MII interface
 	enable_command_register();
+	lpceth_debug_printf("OK\n");
 
-        lpceth_debug_printf("About to write to PHY\n");
+	lpceth_debug_printf("...External ETH PHY: Reg. Config - ");
+	lpceth_debug_printf("OK\n");
+
 	fnet_lpceth_write_to_phy(BASIC_CONTROL_REGISTER,BASIC_CONTROL_SOFT_RESET);
 	// Loop until hardware reset completes
 	for (loop = 0; loop < 0x100000; loop++) {
@@ -217,6 +224,11 @@ int fnet_lpceth_init(fnet_netif_t *netif)
 			break;
 		}
 	}
+	lpceth_debug_printf("...External ETH PHY: Read ID - ");
+	temp = fnet_lpceth_read_from_phy(EMAC_PHY_REG_IDR2);
+	phyId = temp  << 16;
+	phyId |= fnet_lpceth_read_from_phy(EMAC_PHY_REG_IDR1);
+
 
 	if (phyId != 0) {
 		fnet_lpceth_write_to_phy(BASIC_CONTROL_REGISTER,BASIC_CONTROL_ENABLE_AUTONEG);
@@ -226,30 +238,49 @@ int fnet_lpceth_init(fnet_netif_t *netif)
 				break;
 			}
 		}
+	lpceth_debug_printf("IDR1: %X", phyId & 0x0000ffff);
+	lpceth_debug_printf(", IDR2: %X\n", (phyId >> 16));
+	}
+	else
+	{
+		lpceth_debug_printf("ERROR: PHY not recognized\n");
+		return FNET_ERR;
 	}
 
+	lpceth_debug_printf("...External ETH PHY: Waiting for connect eth cable - ");
 
 	for(loop=0; loop<LPC_EMAC_PHY_TIMEOUT; loop++) {
 		temp = fnet_lpceth_read_from_phy(BASIC_STATUS_REGISTER);
-		if (temp & BASIC_STATUS_LINK_STATUS) {
+		if (temp & BASIC_STATUS_LINK_STATUS)
+		{
+			lpceth_debug_printf("OK\n");
 			break;
-		} else {
+		} else
+		{
 			fnet_timer_delay(10); // wait a bit
+			fnet_printf("...External ETH PHY: Waiting for connect eth cable - Waitning .... %u   \r", LPC_EMAC_PHY_TIMEOUT-loop);
 		}
-		// TODO: Figure out what to do in event of timeout..
+		lpceth_debug_printf("ERROR: ethernet cable not connected! \n");
+		return FNET_ERR;
 	}
 
 	// Read the autonegotiation partner register to find out if the other end is 100BASE-TX FULL
 	temp = fnet_lpceth_read_from_phy(AUTONEG_ADVERTISEMENT_LINK_PART_ABILITY_REGISTER);
 	if (temp & AUTONEG_PARTNER_100BTX_FULL) {
+		lpceth_debug_printf("...External ETH PHY: Enable FullDuplex - ");
 		mac_enable_full_duplex();
 		command_enable_full_duplex();
+		lpceth_debug_printf("OK\n");
+
 		// Should we set IPGT to 15 as NXP does?
+		lpceth_debug_printf("...External ETH PHY: Set to 100MB - ");
 		phy_set_100();
-		fnet_printf("100BASE-TX Full Duplex");
+		lpceth_debug_printf("OK\n");
 	}
 
+	lpceth_debug_printf("...Internal DMA: Inicialization - ");
 	fnet_lpceth_init_dma();
+	lpceth_debug_printf("OK\n");
 
 #if FNET_CFG_MULTICAST
 	set_recieve_filter(ETH_RECEIVE_BROADCAST | ETH_RECEIVE_PERFECT | ETH_RECEIVE_MULTICAST_HASH);
@@ -258,21 +289,31 @@ int fnet_lpceth_init(fnet_netif_t *netif)
 #endif
 
 	disable_ethernet_interrupts();
-	enable_ethernet_interrupts(ETH_INTSTATUS_RX_DONE | ETH_INTSTATUS_TX_DONE | ETH_INTSTATUS_RX_OVERRUN | ETH_INTSTATUS_TX_UNDERRUN);
 
+	lpceth_debug_printf(".ETH Install IRQ: - ");
+	fnet_isr_vector_init(ENET_IRQn, fnet_lpceth_interrupt_handler_top, fnet_lpceth_interrupt_handler_bottom, FNET_CFG_CPU_ETH_VECTOR_PRIORITY, 0);
+	lpceth_debug_printf("OK\n");
+
+	lpceth_debug_printf(".ETH Enable Rx and Tx Function: - ");
+	set_enable_rxtx_functions(COMMAND_ENABLE_RECEIVE | COMMAND_ENABLE_TRANSMIT);
+	mac_enable_receive_frames();
+	lpceth_debug_printf("OK\n");
+
+	lpceth_debug_printf(".ETH Enable Rx and Tx IRQ: - ");
+	enable_ethernet_interrupts(ETH_INTSTATUS_RX_DONE | ETH_INTSTATUS_TX_DONE | ETH_INTSTATUS_RX_OVERRUN | ETH_INTSTATUS_TX_UNDERRUN);
 	clear_ethernet_interrupts();
 
-	set_enable_rxtx_functions(COMMAND_ENABLE_RECEIVE | COMMAND_ENABLE_TRANSMIT);
-
-	mac_enable_receive_frames();
-
 	NVIC_EnableIRQ(ENET_IRQn);
-	fnet_isr_vector_init(ENET_IRQn,fnet_lpceth_interrupt_handler_top,fnet_lpceth_interrupt_handler_bottom,FNET_CFG_CPU_ETH_VECTOR_PRIORITY,0);
+	fnet_cpu_irq_enable(ENET_IRQn);
+
+	lpceth_debug_printf("OK\n");
+
 
 	return FNET_OK;
 }
 
 void fnet_lpceth_init_dma() {
+	//fnet_printf("Problem....");
 	fnet_memset((void *)FNET_LPCETH_DMA_BLOCK_START,0,FNET_LPCETH_DMA_BLOCK_LEN);
 	uint8_t loop;
 
@@ -403,7 +444,7 @@ void fnet_lpceth_output(fnet_netif_t *netif, unsigned short type, const fnet_mac
                 return;
 	}
 	txDescriptorStatus[currentIndex] = 1;
-	lpceth_debug_printf("tx: %d %d\n",LPC_EMAC->TxProduceIndex,LPC_EMAC->TxConsumeIndex);
+	lpceth_debug_printf("+----->ETH->Tx: ProdId:%d ConsId:%d\n",LPC_EMAC->TxProduceIndex,LPC_EMAC->TxConsumeIndex);
 	fnet_lpceth_tx_descriptor *descriptor = (fnet_lpceth_tx_descriptor *)(LPC_EMAC->TxDescriptor + currentIndex*sizeof(fnet_lpceth_tx_descriptor));
 	fnet_lpceth_tx_status *status = (fnet_lpceth_tx_status *)(LPC_EMAC->TxStatus + currentIndex*sizeof(fnet_lpceth_tx_status));
 	fnet_memset(descriptor->packetPtr,0,1536);
@@ -439,7 +480,6 @@ int fnet_lpceth_get_hw_addr(fnet_netif_t *netif, unsigned char * hw_addr)
 	hw_addr[3] = (LPC_EMAC->SA1 & 0xFF);
 	hw_addr[4] = (LPC_EMAC->SA2 & 0xFF00) >> 8;
 	hw_addr[5] = (LPC_EMAC->SA2 & 0xFF);
-
 	return FNET_OK;
 }
 int fnet_lpceth_set_hw_addr(fnet_netif_t *netif, unsigned char * hw_addr)
@@ -457,6 +497,7 @@ int fnet_lpceth_get_statistics(struct fnet_netif *netif, struct fnet_netif_stati
 	return FNET_OK;
 }
 int fnet_lpceth_is_connected(fnet_netif_t *netif) {
+
 	return FNET_ERR;
 }
 
@@ -502,7 +543,7 @@ void fnet_lpceth_interrupt_handler_bottom(void *cookie) {
 /*
  * This acts as the receive handler, trigged by an interrupt on reception of an Ethernet frame
  */
-void FNET_ENET_IRQHandler(void) {
+void ENET_IRQHandler(void) {
 	fnet_isr_handler(ENET_IRQn);
 }
 

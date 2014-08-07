@@ -23,9 +23,6 @@ RM := rm -rf
 -include Framework/FNET/os/ucosII/subdir.mk
 -include Framework/FNET/os/freertos/subdir.mk
 -include Framework/FNET/os/brtos/subdir.mk
--include Framework/FNET/cpu/mpc/subdir.mk
--include Framework/FNET/cpu/mk/subdir.mk
--include Framework/FNET/cpu/mcf/subdir.mk
 -include Framework/FNET/cpu/lpc17xx/subdir.mk
 -include Framework/FNET/cpu/common/subdir.mk
 -include Framework/FNET/cpu/subdir.mk
@@ -68,7 +65,7 @@ all: ARM_FNET_LPC1788-SK.elf secondary-outputs
 ARM_FNET_LPC1788-SK.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall  -g3 -T "C:\Documents and Settings\peterj\My Documents\git\ARM-FNET-LPC-1788-SK\ARM-FNET-LPC-1788-SK\gcc_LPC1788.ld" -Wl,-Map,"ARM_FNET_LPC1788-SK.map" -o "ARM_FNET_LPC1788-SK.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -O0 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall  -g3 -T "C:\embedded\git\ARM-FNET-LPC-1788-SK\ARM-FNET-LPC-1788-SK\gcc_LPC1788.ld" -Wl,-Map,"ARM_FNET_LPC1788-SK.map" -o "ARM_FNET_LPC1788-SK.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
@@ -97,7 +94,7 @@ clean:
 	-@echo ' '
 
 post-build:
-	-checksum.cmd "C:/Documents and Settings/peterj/My Documents/git/ARM-FNET-LPC-1788-SK/ARM-FNET-LPC-1788-SK" "Debug"  "ARM_FNET_LPC1788-SK" "LPC1788"
+	-checksum.cmd "C:/embedded/git/ARM-FNET-LPC-1788-SK/ARM-FNET-LPC-1788-SK" "Debug"  "ARM_FNET_LPC1788-SK" "LPC1788"
 	-@echo ' '
 
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_LIST) $(SECONDARY_SIZE)

@@ -21,16 +21,25 @@
 //#define DEBUG_UART_PORT       (UART_TypeDef *)UART1   // Select UART1
 #define FNET_CFG_CPU_SERIAL_BAUD_DEFAULT	115200
 
+//#define FNET_CFG_DEBUG_TRACE_ARP (1)
+
 //LED indicators preset
 #define BRD_LED_1_CONNECTED_PORT		(1)
-#define BRD_LED_1_CONNECTED_PIN			(18)
+#define BRD_LED_1_CONNECTED_PIN			(13)
 #define BRD_LED_1_CONNECTED_MASK		(1 << BRD_LED_1_CONNECTED_PIN)
+
+#define BRD_LED_2_CONNECTED_PORT		(1)
+#define BRD_LED_2_CONNECTED_PIN			(18)
+#define BRD_LED_2_CONNECTED_MASK		(1 << BRD_LED_2_CONNECTED_PIN)
+
 
 #define _CURR_USING_BRD 			_IAR_OLIMEX_BOARD
 
 /*********************************************************************************/
 /******************* FNET Configuration -> override default one ******************/
-#define FNET_CFG_CPU_LPC_ETH_ADVANCED_DEBUG	1
+#define FNET_CFG_CPU_LPC_ETH_ADVANCED_DEBUG		1
+#define FNET_CFG_SERIAL_PRINTF_N_TO_RN			0
+
 #define _FAPP_USER_CONFIG_H_
 #define FAPP_CFG_NAME                   "VRM FNET Shell Application"
 #define FAPP_CFG_SHELL_PROMPT           "SHELL> "

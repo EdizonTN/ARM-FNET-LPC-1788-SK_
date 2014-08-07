@@ -544,6 +544,7 @@ void fnet_netif_set_ip4_addr( fnet_netif_desc_t netif_desc, fnet_ip4_addr_t ipad
         netif->ip4_addr.subnetbroadcast = netif->ip4_addr.address
                                           | (~netif->ip4_addr.subnetmask);                   /* Subnet broadcast address.*/
 
+
         if(netif->api->set_addr_notify)
             netif->api->set_addr_notify(netif);
     }

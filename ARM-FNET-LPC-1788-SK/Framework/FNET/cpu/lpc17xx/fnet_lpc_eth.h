@@ -215,7 +215,7 @@ enum {
 
 #define LPC_EMAC_MII_WRITE_TIMEOUT 0x50000
 #define LPC_EMAC_MII_READ_TIMEOUT 0x50000
-#define LPC_EMAC_PHY_TIMEOUT 0x10000
+#define LPC_EMAC_PHY_TIMEOUT 		(unsigned int) 0x10000
 
 #define is_mII_busy() ((LPC_EMAC->MIND & 1) == 1)
 typedef struct
@@ -228,7 +228,9 @@ typedef struct
 #define NUM_OF_RX_FRAGMENTS 4
 #define NUM_OF_TX_FRAGMENTS 3
 
-#define FNET_LPCETH_DMA_BLOCK_START 0x2007C000 // AHB Block 1 on the LPC
+//#define FNET_LPCETH_DMA_BLOCK_START 0x2007C000 // AHB Block 1 on the LPC
+#define FNET_LPCETH_DMA_BLOCK_START LPC_GPDMA
+
 #define FNET_LPCETH_DMA_BLOCK_LEN 0x3FFF // 16k
 
 FNET_COMP_PACKED_BEGIN;

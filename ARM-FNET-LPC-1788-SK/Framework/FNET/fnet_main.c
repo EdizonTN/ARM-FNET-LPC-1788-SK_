@@ -84,16 +84,13 @@ void FNET_START(void) {
 		//fnet_cpu_serial_init(FNET_CFG_CPU_SERIAL_PORT_DEFAULT, 9600);
 		fnet_printf("UART %i init @%u\n", FNET_CFG_CPU_SERIAL_PORT_DEFAULT, FNET_CFG_CPU_SERIAL_BAUD_DEFAULT);
 
-#if LPC_DEBUG_LEDS
-		led_init();
-#endif
 		/* Enable interrupts */
-		//fnet_cpu_irq_enable(0);
+		fnet_cpu_irq_enable(0);
 
 		if (fnet_init_static() != FNET_ERR) {
-			fnet_printf("\nFNET INIT is done");
+			fnet_printf("\nFNET INIT is done\r");
 		} else {
-			fnet_printf("\nFNET INIT failed");
+			fnet_printf("\nFNET INIT failed\r");
 		}
 #if FNET_CFG_DHCP
 	fnet_netif_desc_t netif;
@@ -119,6 +116,8 @@ void FNET_START(void) {
         }
 #endif
                 
+
+
 #if FNET_CFG_FS
 		fnet_printf("FS init ");
 		if (fnet_fs_init() != FNET_ERR) {

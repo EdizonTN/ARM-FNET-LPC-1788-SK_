@@ -209,8 +209,8 @@
 		#error "More than one CPU selected FNET_CPU_XXXX"
 	#endif
 
-	#include "fnet_lpc1768_config.h"
-	#define FNET_CPU_STR "LPC1768"
+	#include "fnet_lpc177x_8x_config.h"
+	#define FNET_CPU_STR "LPC1788"
 #endif
 
 /*-----------*/

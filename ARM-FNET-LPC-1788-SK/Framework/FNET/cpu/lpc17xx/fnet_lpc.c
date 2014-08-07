@@ -5,6 +5,7 @@
  *      Author: matt
  */
 
+#include "global.h"
 #include "fnet.h"
 
 #if FNET_LPC
@@ -15,7 +16,12 @@
 *************************************************************************/
 fnet_cpu_irq_desc_t fnet_cpu_irq_disable(void)
 {
-     return 0;
+	unsigned long x=0;
+	NVIC->ICER[0] |= (1 << 28) ;	// disable IRQ
+	x = NVIC->ISER[0]; // stub
+	fnet_printf("\n..............IRQ:ENA. NVIS.ISER: %d\n",(x&(1 <<28))>>28);
+
+	return 0;
 }
 
 /************************************************************************
@@ -25,8 +31,10 @@ fnet_cpu_irq_desc_t fnet_cpu_irq_disable(void)
 *************************************************************************/
 void fnet_cpu_irq_enable(fnet_cpu_irq_desc_t irq_desc)
 {
-	char x;
-	x++; // stub
+	unsigned long x=0;
+	NVIC->ISER[0] |= 1 << 28;	// enable IRQ
+	x = NVIC->ISER[0]; // stub
+	fnet_printf("\n..............IRQ:ENA. NVIS.ISER: %d\n",(x&(1 <<28))>>28);
 }
 
 // stub function, we use CMSIS for now

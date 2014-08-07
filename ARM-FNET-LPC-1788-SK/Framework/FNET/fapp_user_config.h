@@ -11,6 +11,8 @@
 
 #define _FAPP_USER_CONFIG_H_
 
+#define FNET_CFG_MULTICAST				0
+
 #define FAPP_CFG_NAME                   "FNET Shell Application"
 #define FAPP_CFG_SHELL_PROMPT           "SHELL> "
 

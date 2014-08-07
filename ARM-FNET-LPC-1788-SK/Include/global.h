@@ -17,7 +17,11 @@
 #include "Configuration.h"
 
 
+
+
+
 // ************ CHIP HEADERS ******************************************************
+#include "lpc177x_8x_libcfg_default.h"
 //#include "../Chip/Include/arm_common_tables.h"
 //#include "../Chip/Include/arm_const_structs.h"
 //#include "../Chip/Include/arm_math.h"
@@ -46,7 +50,8 @@
 #pragma GCC system_header
 #include "fnet.h"
 #include "fnet_config.h"
-
+#include "fnet_isr.h"		// prepojenie CPU IRQ a FNET aplikacie
+#include "lpc_debug.h"
 
 // export from main.c module
 extern void cpu_serial_init(long port_number, unsigned long baud_rate);

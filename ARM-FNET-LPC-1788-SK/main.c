@@ -73,6 +73,7 @@ void HardFault_Handler(void)
 	uint8_t value = 0;
 	value = 1;
 	value ++;
+	//fnet_printf("!HARD FAULT!   \n");
 }
 
 // MII ethernet interface
@@ -162,26 +163,29 @@ void Initialize_UART(long port_number, unsigned long baud_rate)
 
 int main (void)
 {
-	uint8_t value = 0;
+	uint32_t value = 0;
+
 	//uint32_t cclk = CLKPWR_GetCLK(CLKPWR_CLKTYPE_CPU);
 	/* Generate interrupt each 1 ms   */
 	//SysTick_Config(cclk/1000 - 1);
+
 	GPIO_Init();
 	GPIO_SetDir(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, GPIO_DIRECTION_OUTPUT);
-	GPIO_OutputValue(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, 1);
+	GPIO_SetDir(BRD_LED_2_CONNECTED_PORT, BRD_LED_2_CONNECTED_MASK, GPIO_DIRECTION_OUTPUT);
+	led1_off(); led2_off();
 
 	Initialize_UART(FNET_CFG_CPU_SERIAL_PORT_DEFAULT, FNET_CFG_CPU_SERIAL_BAUD_DEFAULT);
 
+	led1_on(); led2_on();
 	FNET_START();
-	GPIO_OutputValue(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, 0);
+	led1_off(); led2_off();
 
+	fnet_printf("Goto main loop...\n");
 	while (1)
 	{
-		GPIO_OutputValue(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, value);
+		if (value >0x100) { value =0; }
 		fnet_poll_services();
-
-		value = !value;
-		Delay(500);
+		value ++ ;
 	}
 
  return (0);

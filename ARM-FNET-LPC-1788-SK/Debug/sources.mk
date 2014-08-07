@@ -35,9 +35,6 @@ Framework/FNET/os/ucosII \
 Framework/FNET/os/freertos \
 Framework/FNET/os/brtos \
 Framework/FNET \
-Framework/FNET/cpu/mpc \
-Framework/FNET/cpu/mk \
-Framework/FNET/cpu/mcf \
 Framework/FNET/cpu/lpc17xx \
 Framework/FNET/cpu \
 Framework/FNET/cpu/common \

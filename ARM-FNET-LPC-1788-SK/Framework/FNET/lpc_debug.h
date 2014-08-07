@@ -15,14 +15,12 @@
 #include "fnet_user_config.h"
 #if LPC_DEBUG_LEDS
 
-void led_init (void);
+#define led1_on() GPIO_OutputValue(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, 0)
+#define led1_off() GPIO_OutputValue(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, 1)
+#define led2_on() GPIO_OutputValue(BRD_LED_2_CONNECTED_PORT, BRD_LED_2_CONNECTED_MASK, 0)
+#define led2_off() GPIO_OutputValue(BRD_LED_2_CONNECTED_PORT, BRD_LED_2_CONNECTED_MASK, 1)
 
-#define led1_on() LPC_GPIO0->FIOSET = (1 << 22)
-#define led1_off() LPC_GPIO0->FIOCLR = (1 << 22)
-#define led2_on() LPC_GPIO2->FIOSET = (1<<13)
-#define led2_off() LPC_GPIO2->FIOCLR = (1<<13)
-
-void led2_invert(void);
+#define led2_invert() GPIO_OutputValue(BRD_LED_2_CONNECTED_PORT, BRD_LED_2_CONNECTED_MASK, ~GPIO2->PIN)
 
 #endif
 #endif /* LPC_DEBUG_H_ */
