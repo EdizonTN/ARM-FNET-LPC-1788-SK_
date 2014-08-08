@@ -87,7 +87,7 @@
 	#endif 
 	
 	#ifndef FNET_CFG_OS_FREERTOS
-		#define FNET_CFG_OS_FREERTOS (0)
+		#define FNET_CFG_OS_FREERTOS (1)
 	#endif	
 
 	/*-----------*/

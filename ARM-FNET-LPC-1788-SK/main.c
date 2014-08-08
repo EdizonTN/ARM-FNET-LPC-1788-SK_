@@ -84,6 +84,7 @@ void HW_initialize_ETH(void)
   PINSEL_ConfigPin(1,4,1);		// P1.4 - alternate function no.1, FUNC_ENET_TX_EN
   PINSEL_ConfigPin(1,8,1);		// P1.8 - alternate function no.1, FUNC_ENET_CRS
   PINSEL_ConfigPin(1,9,1);		// P1.9 - alternate function no.1, FUNC_ENET_RXD0
+  PINSEL_ConfigPin(1,10,1);		// P1.10 - alternate function no.1, FUNC_ENET_RXD1
   PINSEL_ConfigPin(1,14,1);		// P1.14 - alternate function no.1, FUNC_ENET_RX_ER
   PINSEL_ConfigPin(1,15,1);		// P1.15 - alternate function no.1, ENET_RX_CLK
   PINSEL_ConfigPin(1,16,1);		// P1.16 - alternate function no.1, FUNC_ENET_MDC
@@ -163,12 +164,12 @@ void Initialize_UART(long port_number, unsigned long baud_rate)
 
 int main (void)
 {
+	LPC_SC_TypeDef Check;
 	uint32_t value = 0;
 
 	//uint32_t cclk = CLKPWR_GetCLK(CLKPWR_CLKTYPE_CPU);
 	/* Generate interrupt each 1 ms   */
 	//SysTick_Config(cclk/1000 - 1);
-
 	GPIO_Init();
 	GPIO_SetDir(BRD_LED_1_CONNECTED_PORT, BRD_LED_1_CONNECTED_MASK, GPIO_DIRECTION_OUTPUT);
 	GPIO_SetDir(BRD_LED_2_CONNECTED_PORT, BRD_LED_2_CONNECTED_MASK, GPIO_DIRECTION_OUTPUT);
@@ -180,6 +181,33 @@ int main (void)
 	FNET_START();
 	led1_off(); led2_off();
 
+	fnet_printf("System reg: \n" );
+	fnet_printf("PCONP.PCENET: %d ", (LPC_SC->PCONP & (1 << 30)) >> 30 );					// PCENET
+	fnet_printf(", CCLKSEL.PCENET: %d ", LPC_SC->CCLKSEL );									// CCLKSEL
+	fnet_printf(", NVIC.28: %d \n", ((NVIC->ISER[0] & (1 << 28)) >> 28) );				// Eth IRQ
+
+	fnet_printf("ETH reg: \n" );
+	fnet_printf(" MAC1: 0x%04X", LPC_EMAC->MAC1 );									// MAC Config reg 1
+	fnet_printf(" ,MAC2: 0x%04X", LPC_EMAC->MAC2 );											// MAC Config reg 2
+	fnet_printf(" ,MAXF: %d", LPC_EMAC->MAXF );												// Maximum Frame register.
+	fnet_printf(" ,SUPP: 0x%04X", LPC_EMAC->SUPP );											// PHY Support register.
+	fnet_printf(" ,MIND: 0x%04X \n", LPC_EMAC->MIND );									// MII Mgmt Indicators register.
+
+	fnet_printf(" Command: 0x%04X", LPC_EMAC->Command );									// Command register.
+	fnet_printf(" ,Status: 0x%04X \n", LPC_EMAC->Status );										// Status register.
+
+	fnet_printf(" RxDescriptor: 0x%04X", LPC_EMAC->RxDescriptor );							// Receive descriptor base address register
+	fnet_printf(" ,RSV: 0x%04X", LPC_EMAC->RSV );									// Receive status base address register
+	fnet_printf(" ,RxDescriptorNumber: 0x%04X \n", LPC_EMAC->RxDescriptorNumber );		// Receive number of descriptors register.
+
+	fnet_printf(" TxDescriptor: 0x%04X", LPC_EMAC->TxDescriptor );							// Transmit descriptor base address register
+	fnet_printf(" ,TSV1: 0x%04X", LPC_EMAC->TSV1 );									// Transmit status base address register
+	fnet_printf(" ,TRxDescriptorNumber: 0x%04X \n", LPC_EMAC->TxDescriptorNumber );		// Transmit number of descriptors register.
+
+	fnet_printf(" EMAC.IntStatus: 0x%04X", LPC_EMAC->IntStatus );							// Interrupt status register.
+	fnet_printf(" EMAC.IntEnable: 0x%04X \n\n", LPC_EMAC->IntEnable );							// Interrupt Enable register.
+
+
 	fnet_printf("Goto main loop...\n");
 	while (1)
 	{
@@ -190,3 +218,24 @@ int main (void)
 
  return (0);
 }
+
+
+
+
+/*
+#include "fapp.h"
+#include "fnet_cpu.h"
+
+void main(void)
+{
+    // Init UART
+	fnet_cpu_serial_init(FNET_CFG_CPU_SERIAL_PORT_DEFAULT, 115200);
+
+	// Enable interrupts
+	fnet_cpu_irq_enable(0);
+
+    // Run application
+	fapp_main();
+}
+
+*/

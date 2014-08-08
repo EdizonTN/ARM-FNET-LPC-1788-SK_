@@ -12,7 +12,7 @@
 
 #define CHIP_LPC177X_8X
 #define __STACK_SIZE	0x400
-#define __HEAP_SIZE	0xd00
+#define __HEAP_SIZE		0xd00
 
 #warning "Add into assembler's include also Configuration.h file!"
 #define ARM_MATH_CM3
@@ -37,13 +37,14 @@
 
 /*********************************************************************************/
 /******************* FNET Configuration -> override default one ******************/
-#define FNET_CFG_CPU_LPC_ETH_ADVANCED_DEBUG		1
+#define FNET_CFG_CPU_LPC_ETH_ADVANCED_DEBUG		0
 #define FNET_CFG_SERIAL_PRINTF_N_TO_RN			0
 
 #define _FAPP_USER_CONFIG_H_
 #define FAPP_CFG_NAME                   "VRM FNET Shell Application"
 #define FAPP_CFG_SHELL_PROMPT           "SHELL> "
 /*  "dhcp" command.*/
+
 #define FAPP_CFG_DHCP_CMD               (0)
 #define FAPP_CFG_DHCP_CMD_DISCOVER_MAX  (5)
 /*  "set/get" command.*/

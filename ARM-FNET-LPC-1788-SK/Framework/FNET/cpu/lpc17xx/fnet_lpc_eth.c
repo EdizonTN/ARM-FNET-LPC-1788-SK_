@@ -285,7 +285,8 @@ int fnet_lpceth_init(fnet_netif_t *netif)
 #if FNET_CFG_MULTICAST
 	set_recieve_filter(ETH_RECEIVE_BROADCAST | ETH_RECEIVE_PERFECT | ETH_RECEIVE_MULTICAST_HASH);
 #else
-	set_recieve_filter(ETH_RECEIVE_BROADCAST | ETH_RECEIVE_PERFECT);
+	//set_recieve_filter(ETH_RECEIVE_BROADCAST | ETH_RECEIVE_PERFECT);
+	set_recieve_filter(ETH_RECEIVE_UNICAST | ETH_RECEIVE_BROADCAST | ETH_RECEIVE_MULTICAST);		// ToDO: promiscuous mode
 #endif
 
 	disable_ethernet_interrupts();
@@ -376,7 +377,7 @@ void fnet_lpceth_input(fnet_netif_t *netif) {
              * (do not do a endian conversion here)
              */
             ethheader = (fnet_eth_header_t *) (rxDescriptor->packetPtr);
-            fnet_eth_trace("\nRX", ethheader);
+            //fnet_eth_trace("\nRX", ethheader);
 
             void *layer3Ptr = rxDescriptor->packetPtr + sizeof (fnet_eth_header_t);
             uint16_t sizeOfLayer3 = pktSize - sizeof (fnet_eth_header_t);

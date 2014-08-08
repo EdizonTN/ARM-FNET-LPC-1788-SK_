@@ -87,7 +87,8 @@
  * @showinitializer
  ******************************************************************************/
 #ifndef FNET_CFG_HTTP_SESSION_MAX
-    #define FNET_CFG_HTTP_SESSION_MAX       (3)
+    // ToDo: na testovanie. bolo:3
+		#define FNET_CFG_HTTP_SESSION_MAX       (20)
 #endif
 
 /**************************************************************************/ /*!

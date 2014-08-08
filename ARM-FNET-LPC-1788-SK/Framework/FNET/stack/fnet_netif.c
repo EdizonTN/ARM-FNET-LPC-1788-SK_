@@ -438,9 +438,16 @@ int fnet_netif_init( fnet_netif_t *netif, unsigned char *hw_addr, unsigned int h
                     break;
             
             }
-        }     
+        }
 
-               
+        fnet_printf("ETH - Initialization: %s, ID:%d\n", netif->name, netif->scope_id);
+        fnet_printf("	 - IP: %x, GW: %x\n", netif->ip4_addr.address, netif->ip4_addr.gateway);
+        fnet_printf("	 - MASK: %x, DHCP?: %d\n", netif->ip4_addr.netmask, netif->ip4_addr.is_automatic);
+        fnet_printf("	 - MTU: %d\n", netif->mtu);
+        fnet_printf("	 - MTU: %x\n", netif->if_ptr);
+
+
+
         fnet_isr_unlock();
         
         fnet_os_mutex_unlock();

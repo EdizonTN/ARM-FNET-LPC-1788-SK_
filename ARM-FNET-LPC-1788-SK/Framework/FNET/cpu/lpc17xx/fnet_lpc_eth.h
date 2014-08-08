@@ -225,11 +225,11 @@ typedef struct
 
 /** Set up TX and RX DMA memory space */
 
-#define NUM_OF_RX_FRAGMENTS 4
-#define NUM_OF_TX_FRAGMENTS 3
+#define NUM_OF_RX_FRAGMENTS 8
+#define NUM_OF_TX_FRAGMENTS 8
 
-//#define FNET_LPCETH_DMA_BLOCK_START 0x2007C000 // AHB Block 1 on the LPC
-#define FNET_LPCETH_DMA_BLOCK_START LPC_GPDMA
+//ToDO: CHECK !!!!!!!!!!!!!!!!!!!!! #define FNET_LPCETH_DMA_BLOCK_START 0x2007C000 // AHB Block 1 on the LPC
+#define FNET_LPCETH_DMA_BLOCK_START 0x20000000 //LPC_GPDMA
 
 #define FNET_LPCETH_DMA_BLOCK_LEN 0x3FFF // 16k
 
